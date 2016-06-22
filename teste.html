@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <script src="jquery/jquery-2.2.0.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $("#bGetMeteo").click(function() {
+                    place = $("#place").val();
+
+                    //nota na url inserir a api key do wunderground
+                    // usar esta só para teste : d8483e016960a875
+
+                    url = "http://api.wunderground.com/api/<apikey>/conditions/q/"+place+".json";
+
+                    $.ajax(url,{
+                        method : "GET",
+                        dataType : "json",
+                        success : function (data) {
+                            console.log(data);
+                            novodiv = $("<div/>");
+                            icon = $("<img/>").attr("src",data.current_observation.icon_url);
+                            temp = $("<h1/>").html(data.current_observation.temp_c);
+                           city = $("<h1/>").html(data.current_observation.display_location.city);
+                            $("#meteo").append(novodiv.append(city).append(icon).append(temp));
+                        }
+                    })
+                })
+            })
+        </script>
+    </head>
+
+
+    <body>
+        <div id="control">
+        <input type="text" id="place" placeholder ="localidade"/>
+        <button id="bGetMeteo">Meteorologia</button>
+        </div>
+        <div id="meteo">
+        </div>
+    </body>
+</html>
